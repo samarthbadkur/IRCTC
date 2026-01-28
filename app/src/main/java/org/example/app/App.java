@@ -24,6 +24,67 @@
 // Thus, the package declaration is as follows:
 // Whenever you create a new Java file, ensure that the package declaration
 // at the top of the file corresponds to its directory structure.
+// TCP /IP - Transmission Control Protocol/Internet Protocol is a set of protocols that govern the connection of computer systems to the internet.
+// It provides end-to-end communication specifying how data should be packetized, addressed, transmitted, routed, and received.
+// HTTP - Hypertext Transfer Protocol is an application protocol for distributed, collaborative, hypermedia information systems.
+// It is the foundation of data communication for the World Wide Web, where hypertext documents include hyperlinks to other resources that the user can easily access.
+// REST - Representational State Transfer is an architectural style for designing networked applications.
+// It relies on a stateless, client-server, cacheable communications protocol -- and in virtually all cases, the HTTP protocol is used.
+// TCP 3 way handshake - It is a process used in TCP/IP networks to establish a reliable connection between a client and server before data transmission begins.
+// The handshake involves three steps: SYN, SYN-ACK, and ACK.
+// 1. SYN: The client sends a SYN (synchronize) packet to the server to initiate a connection.
+// 2. SYN-ACK: The server responds with a SYN-ACK (synchronize-acknowledge) packet, acknowledging the client's request and indicating its readiness to establish a connection.
+// 3. ACK: The client sends an ACK (acknowledge) packet back to the server, confirming the establishment of the connection.
+// Once this three-way handshake is complete, a reliable connection is established, allowing data to be transmitted between the client and server.
+// Persistent Connection - A persistent connection, also known as a keep-alive connection, is a network communication channel that remains open for multiple requests and responses between a client and server.
+// This allows for the reuse of the same connection for multiple interactions, reducing the overhead of establishing new connections for each request.
+// In contrast, a non-persistent connection is closed after a single request-response cycle, requiring a new connection to be established for each subsequent request.
+// Persistent connections improve performance by reducing latency and resource consumption, making them particularly beneficial for applications that require frequent communication between clients and servers.
+// When a client makes a request to server, if single threaded, server can handle only one request at a time.
+// In a multi threaded server, multiple threads can handle multiple requests simultaneously.
+// This improves the server's ability to handle concurrent requests, leading to better performance and responsiveness, especially in high-traffic scenarios.
+// Multi-threading allows for efficient utilization of server resources, as threads can be created and destroyed as needed to handle incoming requests.
+// This is particularly important in web servers, where multiple clients may be making requests at the same time.
+// By using multi-threading, servers can provide faster response times and improved scalability.
+// In Java, multi-threading is achieved using the Thread class and the Runnable interface.
+// Java provides built-in support for multi-threading through the java.lang.Thread class
+// and the java.lang.Runnable interface. Developers can create and manage threads using these classes and interfaces,
+// allowing for concurrent execution of code within a Java application.
+// COntext switching - Context switching is the process of saving and restoring the state of a CPU so that multiple processes or threads can share a single CPU resource.
+// It allows the operating system to switch between different tasks, giving the illusion of simultaneous execution.
+// When a context switch occurs, the CPU saves the current state of the running process or thread,
+// including its program counter, registers, and memory mappings, into a data structure called a process control block (PCB).
+// The CPU then loads the state of the next process or thread to be executed from its PCB.
+// Context switching is essential for multitasking operating systems, as it enables multiple processes or threads to run concurrently on a single CPU.
+// However, context switching incurs some overhead, as saving and restoring the CPU state takes time and resources.
+// Excessive context switching can lead to performance degradation, as the CPU spends more time switching between tasks than executing them.
+// Therefore, operating systems strive to minimize context switching while still providing responsive multitasking capabilities.
+// To overcome the limitiation of context switching, we use thread pools.
+// Thread Pools - A thread pool is a collection of pre-instantiated, idle threads that stand ready to be given work.
+// Instead of creating a new thread for each task, which can be resource-intensive and time-consuming,
+// a thread pool allows for the reuse of existing threads, improving performance and resource utilization.
+// When a task is submitted to a thread pool, an available thread from the pool is assigned to execute the task.
+// Once the task is completed, the thread returns to the pool and becomes available for future tasks.
+// Thread pools are commonly used in server applications, where multiple client requests need to be handled concurrently.
+// By using a thread pool, the server can efficiently manage a limited number of threads to handle a large number of requests,
+// reducing the overhead associated with thread creation and destruction.
+// In Java, server contains queue of requests to be handled by thread pool.
+// Each thread in the pool picks up requests from the queue and processes them.
+// The difference between java and javascript is that java is a multi-threaded language while javascript is single-threaded language.
+// In java, multiple threads can run concurrently while in javascript, only one thread can run at a time.
+// This means that in java, multiple tasks can be executed simultaneously while in javascript, tasks are executed one after the other.
+// This makes java more suitable for applications that require high concurrency and parallelism, while javascript is more suitable for applications that require simplicity and ease of use.
+// Java uses JVM (Java Virtual Machine) to run the code while javascript uses browser or node.js to run the code.
+// In javascript, we use event loop to handle asynchronous operations while in java, we use threads to handle asynchronous operations.
+// Event Loop - The event loop is a programming construct that allows for non-blocking, asynchronous execution of code.
+// It is commonly used in single-threaded environments, such as JavaScript, to handle events and perform I/O operations without blocking the main thread.
+// The event loop works by continuously checking a queue of events and executing the corresponding callback functions when events are available.
+// When an asynchronous operation is initiated, such as a network request or a timer, the operation is added to the event queue.
+// The event loop then picks up events from the queue and executes their associated callback functions when the main thread is idle.
+// This allows the main thread to remain responsive and continue processing other events while waiting for asynchronous operations to complete.
+// In contrast, multi-threaded environments, such as Java, use threads to handle concurrent execution.
+// Each thread can run independently, allowing for parallel execution of code.
+
 package org.example.app;
 
 import java.io.IOException;
@@ -60,6 +121,8 @@ public class App {
                 System.out.println("There is something wrong");
                 return;
             }
+            Train trainSelectedForBooking = new Train();
+
             while (option != 7) {
                 System.out.println("1. SignUp User");
                 System.out.println("2. Login User");
@@ -70,7 +133,6 @@ public class App {
                 System.out.println("7. Exit the App");
                 System.out.print("Enter your option: ");
                 option = scanner.nextInt();
-                Train trainSelectedForBooking = new Train();
                 switch (option) {
                     case 1 -> {
                         // Call Signup user method
@@ -127,7 +189,8 @@ public class App {
                         }
                         System.out.println("Select a train to book by typing 1,2,3...");
                         try {
-                            trainSelectedForBooking = trains.get(scanner.nextInt());
+                            trainSelectedForBooking = trains.get(scanner.nextInt() - 1);
+                            System.out.println(trainSelectedForBooking);
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -135,6 +198,10 @@ public class App {
                     }
                     case 5 -> {
                         //Seat booking method
+                        if (trainSelectedForBooking == null) {
+                            System.out.println("No train selected. Please choose option 4 first.");
+                            break;
+                        }
                         System.out.println("Select a seat to book");
                         List<List<Integer>> seats = userBookingService.fetchSeats(trainSelectedForBooking);
                         for (List<Integer> seatRow : seats) {

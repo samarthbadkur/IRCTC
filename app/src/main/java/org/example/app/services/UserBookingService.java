@@ -2,6 +2,7 @@ package org.example.app.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -29,7 +30,7 @@ public class UserBookingService {
 
     //static is used here we can directly refer to it using class name without creating object of this class. This will be stored in class area of memory without creating object of this class.
     //final is used here to make sure this variable value cannot be changed once initialized.
-    private static final  String USERS_PATH = "localData/users.json";
+    private static final String USERS_PATH = "localData/users.json";
 
     public UserBookingService(User user) throws IOException {
         this.user = user;
@@ -83,15 +84,16 @@ public class UserBookingService {
             return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
         }).findFirst();
         if (userFetched.isPresent()) {
+            System.out.println(userFetched.get().getTicketsBooked());
             userFetched.get().printTickets();
         }
-    }
+    }  
 
     public Boolean cancelBooking(String ticketId) {
 
         //Scanner class is used to get input from user.
         // Scanner is a class in Java that allows reading input from various sources, including the console.
-        // System.in represents the standard input stream, which is typically the keyboard.
+        // System.in represents the standard input stream, which is  typically the keyboard.
         // 
         Scanner s = new Scanner(System.in);
         System.out.println("Enter the ticket id to cancel");
@@ -117,12 +119,18 @@ public class UserBookingService {
     }
 
     public List<Train> getTrains(String source, String destination) throws IOException {
-        TrainService trainService = new TrainService();
-        return trainService.searchTrains(source, destination);
+        try {
+            TrainService trainService = new TrainService();
+            return trainService.searchTrains(source, destination);
+        } catch (IOException ex) {
+            return new ArrayList<>();
+        }
+
     }
 
     public List<List<Integer>> fetchSeats(Train train) {
         //Seat booking method
+        System.out.println(train.getSeats());
         return train.getSeats();
     }
 
